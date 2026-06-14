@@ -1,0 +1,5 @@
+# data_generator/requirements.txt
+pandas==2.2.2
+Faker==25.2.0
+psycopg[binary]==3.1.19
+python-dotenv==1.0.1

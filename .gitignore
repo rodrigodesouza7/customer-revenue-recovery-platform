@@ -2,3 +2,9 @@
 .vscode/
 *.log
 .env
+.env.docker
+venv/
+data_generator/output/
+__pycache__/
+*.pyc
+.pytest_cache/

@@ -1,0 +1,21 @@
+# ============================================================
+# docker-compose.yml
+# Customer Revenue Recovery Platform - Local Postgres (Docker)
+# ============================================================
+
+services:
+  postgres:
+    image: postgres:18
+    container_name: crrp_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: customer_revenue_recovery
+    ports:
+      - "5433:5432"
+    volumes:
+      - crrp_pgdata:/var/lib/postgresql
+
+volumes:
+  crrp_pgdata:

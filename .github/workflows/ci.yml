@@ -1,0 +1,76 @@
+# ============================================================
+# .github/workflows/ci.yml
+# Customer Revenue Recovery Platform - CI
+# ============================================================
+
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: admin
+          POSTGRES_DB: customer_revenue_recovery
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_NAME: customer_revenue_recovery
+      DB_USER: postgres
+      DB_PASSWORD: admin
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install psql client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Apply schema
+        run: |
+          psql -h localhost -U postgres -d customer_revenue_recovery -f sql/01_schema.sql
+          psql -h localhost -U postgres -d customer_revenue_recovery -f "sql/02_tables.sql"
+        env:
+          PGPASSWORD: admin
+
+      - name: Apply views and triggers
+        run: |
+          psql -h localhost -U postgres -d customer_revenue_recovery -f sql/04_views.sql
+          psql -h localhost -U postgres -d customer_revenue_recovery -f sql/05_audit_trigger.sql
+        env:
+          PGPASSWORD: admin
+
+      - name: Install Python dependencies
+        run: |
+          pip install -r data_generator/requirements.txt
+          pip install -r tests/requirements.txt
+
+      - name: Generate and load data
+        run: |
+          cd data_generator
+          python generate_data.py
+          python db_loader.py
+
+      - name: Run tests
+        run: pytest tests/ -v
