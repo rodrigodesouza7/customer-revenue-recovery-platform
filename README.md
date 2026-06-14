@@ -134,7 +134,7 @@ pytest (29 tests) → GitHub Actions CI/CD
 
 ## Diagrama ER
 
-![ER Diagram](diagrams/er_diagram.png)
+![ER Diagram](docs/diagrams/er_diagram.png)
 
 ---
 
@@ -150,11 +150,11 @@ pytest (29 tests) → GitHub Actions CI/CD
 
 ### Receita em Risco por Cliente
 
-![Revenue Recovery](diagrams/revenue_recovery.png)
+![Revenue Recovery](docs/diagrams/revenue_recovery.png)
 
 ### Health Score por Cliente
 
-![Customer Health](diagrams/customer_health.png)
+![Customer Health](docs/diagrams/customer_health.png)
 
 ---
 
@@ -164,13 +164,13 @@ Teste de impacto de índice na coluna `status` de `core.payments` (4.626 registr
 
 ### Com índice (`idx_payments_status`)
 
-![Explain with index](diagrams/explain_with_index.png)
+![Explain with index](docs/diagrams/explain_with_index.png)
 
 Bitmap Index Scan — Execution Time: **5.501 ms**
 
 ### Sem índice (Seq Scan)
 
-![Explain without index](diagrams/explain_without_index.png)
+![Explain without index](docs/diagrams/explain_without_index.png)
 
 Seq Scan — Execution Time: **2.428 ms**
 
@@ -206,7 +206,7 @@ Dados gerados via `data_generator/` com seed fixo (`RANDOM_SEED = 42`), garantin
 
 ## CI/CD Pipeline
 
-![CI/CD](diagrams/github_actions.png)
+![CI/CD](docs/diagrams/github_actions.png)
 
 GitHub Actions executado em todo push/PR para `main`:
 
@@ -222,7 +222,7 @@ GitHub Actions executado em todo push/PR para `main`:
 
 ## Ambiente de Desenvolvimento
 
-![VS Code](diagrams/vscode_structure.png)
+![VS Code](docs/diagrams/vscode_structure.png)
 
 ---
 
